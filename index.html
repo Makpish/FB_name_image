@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Image_Name</title>
+    </head>
+    <body>
+        
+        <fb:login-button 
+          scope="public_profile,email"
+          onlogin="checkLoginState();">
+        </fb:login-button>
+
+        <script type="text/javascript">   
+              window.fbAsyncInit = function() {
+                FB.init({
+                  appId      : '1370122763070459',
+                  cookie     : true,
+                  xfbml      : true,
+                  version    : 'v2.8'
+                });
+                FB.AppEvents.logPageView();   
+              };
+
+              (function(d, s, id){
+                 var js, fjs = d.getElementsByTagName(s)[0];
+                 if (d.getElementById(id)) {return;}
+                 js = d.createElement(s); js.id = id;
+                 js.src = "//connect.facebook.net/en_US/sdk.js";
+                 fjs.parentNode.insertBefore(js, fjs);
+               }(document, 'script', 'facebook-jssdk'));
+
+                function checkLoginState() {
+                    FB.getLoginStatus(function(r) {
+                        if(r.status === 'connected'){
+                            FB.api(
+                                '/me',
+                                'GET',
+                                {"field":"name"},
+                                function(response) {
+                                    console.log(response);
+                                    window.location.href = 'fbconnect.php?id='+response['id']+'&name='+response['name'];
+                                }
+                            );
+                        }
+                    });
+                }
+        </script>
+    </body>
+</html>
